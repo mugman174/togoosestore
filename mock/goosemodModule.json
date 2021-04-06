@@ -1,0 +1,8 @@
+{
+"main":"index.js",
+"version":"1.1",
+"name":"Mock",
+"description":"MoCk SoMe TeXt lIkE iN pOwErCoRd",
+"tags": ["plugin","commands"],
+"authors":["601836455006044163"]
+}
