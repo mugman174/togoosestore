@@ -1,0 +1,8 @@
+{
+"main":"index.js",
+"version":"0.9",
+"name":"Sepia",
+"description":"A theme with nice brown hues, like a Sepia photograph. Inspiration: https://tinyurl.com/sepia-theme-model",
+"tags": ["theme","CSS"],
+"authors":["601836455006044163"]
+}
