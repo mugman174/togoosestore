@@ -31,14 +31,12 @@ export default {
 .pointerEvents-2zdfdO {fill: #f9d7ab}
 .circleIconButton-1QV--U {color: var(--channels-default)}
 `
-
-
-      importcode = document.createTextNode(code)
-      style.appendChild(importcode)
-      document.head.appendChild(style)
+     importcode = document.createTextNode(code)
+     style.appendChild(importcode)
+     document.head.appendChild(style)
 },
     onRemove: async () => {
-      style.remove();
+     style.remove();
     },
   },
 };
