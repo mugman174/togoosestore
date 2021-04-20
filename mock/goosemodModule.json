@@ -3,6 +3,6 @@
 "version":"1.1",
 "name":"Mock Command",
 "description":"A slash command to MoCk SoMe TeXt. Makes every other letter capitalized.",
-"tags": ["plugin","commands","Fun"],
+"tags": ["Fun"],
 "authors":["601836455006044163"]
 }
