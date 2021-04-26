@@ -1,0 +1,8 @@
+{
+"main":"index.js",
+"version":"1.1",
+"name":"RPC",
+"description":"Custom RPC",
+"tags": ["Fun"],
+"authors":["601836455006044163","458805348669718559"]
+}
