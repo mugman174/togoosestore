@@ -59,7 +59,7 @@ export default {
       }
 
       createItem("RPC", [
-        "(0.0.1)",
+        "(1.0.0)",
         // field objects
         {
           type: "custom",
