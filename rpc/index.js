@@ -6,8 +6,8 @@ export default {
     onImport: () => {
       function game() {
         return {
-          details: stor.details || "Middle Text",
-          state: stor.state || "Bottom Text",
+          details: stor.details || "Hello",
+          state: stor.state || "World",
           timestamps:
             stor.time || false
               ? {
@@ -29,7 +29,7 @@ export default {
             id: 100,
             application: {
               id: "733854571738300487",
-              name: "Name Of Status - Test",
+              name: "RPC",
             },
             transport: "ipc",
           },
@@ -47,7 +47,7 @@ export default {
               id: 100,
               application: {
                 id: stor.appid || "733854571738300487",
-                name: stor.name || "Name Of Status - Test",
+                name: stor.name || "RPC",
               },
               transport: "ipc",
             },
