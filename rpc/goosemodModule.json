@@ -1,7 +1,7 @@
 {
 "main":"index.js",
-"version":"1.0",
-"name":"RPC",
+"version":"1.1a",
+"name":"RPC Beta",
 "description":"Set a custom RPC status for Discord.",
 "tags": ["Fun"],
 "authors":["601836455006044163","458805348669718559"]
