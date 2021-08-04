@@ -2,6 +2,7 @@ import { createItem, removeItem } from "@goosemod/settings";
 
 let stor = {};
 let togl = true;
+let tstogl = false;
 export default {
   goosemodHandlers: {
     onImport: () => {
@@ -109,6 +110,19 @@ export default {
           },
         },
         {
+          type: "toggle",
+          text: "Show timestamp",
+          onToggle: (value) => {
+            stor.time = value.target.value || false;
+            setStatus();
+			tstogl = stor.time
+          },
+          isToggled: () => {
+            // Define what state the toggle switch should be in when loading the page.
+            return tstogl;
+          },
+        },
+        {
           type: "custom",
           element: (() => {
             const elm = goosemod.webpackModules.common.React.createElement(
@@ -183,6 +197,9 @@ export default {
           })(),
         },
         {
+            type: 'divider',
+        },
+        {
           type: "custom",
           element: (() => {
             const elm = goosemod.webpackModules.common.React.createElement(
@@ -253,6 +270,9 @@ export default {
             goosemod.webpackModules.common.ReactDOM.render(elm, e);
             return e;
           })(),
+        },
+        {
+            type: 'divider',
         },
         {
           type: "custom",
@@ -328,20 +348,6 @@ export default {
             goosemod.webpackModules.common.ReactDOM.render(elm, e);
             return e;
           })(),
-        },
-
-
-        {
-          type: "toggle",
-          text: "Show timestamp",
-          onToggle: (value) => {
-            stor.time = value.target.value || false;
-            setStatus();
-          },
-          isToggled: () => {
-            // Define what state the toggle switch should be in when loading the page.
-            return false;
-          },
         },
       ]);
     },
