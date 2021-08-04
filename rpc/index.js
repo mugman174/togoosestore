@@ -3,9 +3,25 @@ import { createItem, removeItem } from "@goosemod/settings";
 let stor = {};
 let togl = true;
 let tstogl = false;
+let btns = []
 export default {
   goosemodHandlers: {
     onImport: () => {
+      function getButtons() {
+        btns = [];
+        if (stor.label_one && stor.url_one) {
+          btns = [
+            {
+              label: stor.label_one,
+              url: stor.url_one
+            }
+          ]
+        }
+        if ((stor.label_one && stor.url_one) && (stor.label_two && stor.url_two)) {
+          btns.push({ label: stor.label_two, url: stor.label_two });
+        }
+        return btns;
+      }
       function game() {
         return {
           details: stor.details || "Hello",
@@ -13,8 +29,8 @@ export default {
           timestamps:
             stor.time || false
               ? {
-                  start: Date.now(),
-                }
+                start: Date.now(),
+              }
               : undefined,
           assets: {
             large_image: stor.large_image || undefined,
@@ -22,16 +38,7 @@ export default {
             large_text: stor.large_text || undefined,
             small_text: stor.small_text || undefined,
           },
-          buttons: [
-            {
-              label: stor.label_one || undefined,
-              url: stor.url_one || undefined,
-            },
-            {
-              label: stor.label_two || undefined,
-              url: stor.url_two || undefined,
-            },
-          ],
+          buttons: getButtons(),
         };
       }
       goosemod.webpackModules
@@ -98,10 +105,10 @@ export default {
           onToggle: (value) => {
             if (value) {
               setStatus();
-              togl = ! togl
+              togl = !togl
             } else {
               removeStatus();
-              togl = ! togl
+              togl = !togl
             }
           },
           isToggled: () => {
@@ -115,7 +122,7 @@ export default {
           onToggle: (value) => {
             stor.time = value.target.value || false;
             setStatus();
-			tstogl = stor.time
+            tstogl = stor.time
           },
           isToggled: () => {
             // Define what state the toggle switch should be in when loading the page.
@@ -197,7 +204,7 @@ export default {
           })(),
         },
         {
-            type: 'divider',
+          type: 'divider',
         },
         {
           type: "custom",
@@ -272,7 +279,7 @@ export default {
           })(),
         },
         {
-            type: 'divider',
+          type: 'divider',
         },
         {
           type: "custom",
