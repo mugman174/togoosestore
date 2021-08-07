@@ -3,7 +3,8 @@ import { createItem, removeItem } from "@goosemod/settings";
 let stor = {};
 let togl = true;
 let tstogl = false;
-let btns = []
+let btns = [];
+let activity;
 export default {
   goosemodHandlers: {
     onImport: () => {
@@ -24,8 +25,8 @@ export default {
       }
       function game() {
         return {
-          details: stor.details || "Hello",
-          state: stor.state || "World",
+          details: stor.details || "Hello from my status!",
+          state: stor.state || "Powered by Discord RP",
           timestamps:
             stor.time || false
               ? {
@@ -58,7 +59,12 @@ export default {
           },
         });
 
-      function setStatus() {
+      function setStatus(remove) {
+        if (remove) {
+          activity = undefined
+        } else {
+          activity = game()
+        }
         goosemod.webpackModules
           .findByProps("INVITE_BROWSER")
           .SET_ACTIVITY.handler({
@@ -66,38 +72,19 @@ export default {
               id: 100,
               application: {
                 id: stor.appid || "733854571738300487",
-                name: stor.name || "RPC",
+                name: stor.name || "with a custom Rich Presence",
               },
               transport: "ipc",
             },
             args: {
               pid: 10,
-              activity: game(),
-            },
-          });
-      }
-
-      function removeStatus() {
-        goosemod.webpackModules
-          .findByProps("INVITE_BROWSER")
-          .SET_ACTIVITY.handler({
-            socket: {
-              id: 100,
-              application: {
-                id: stor.appid || "733854571738300487",
-                name: stor.name || "RPC",
-              },
-              transport: "ipc",
-            },
-            args: {
-              pid: 10,
-              activity: undefined,
+              activity: activity,
             },
           });
       }
 
       createItem("RPC", [
-        "(1.0.0)",
+        "(2.0.0)",
         // field objects
         {
           type: "toggle",
@@ -107,7 +94,7 @@ export default {
               setStatus();
               togl = !togl
             } else {
-              removeStatus();
+              removeStatus(true);
               togl = !togl
             }
           },
@@ -130,231 +117,93 @@ export default {
           },
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.details = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Details (top text)",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
-        },
-
-        {
-          type: "custom",
-
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.state = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "State (bottom text)",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Details (top text)",
+          initialValue: () => stor.details,
+          oninput: (value, elem) => {
+            stor.details = value || undefined;setStatus();
+          }
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.name = val.target.value || "";
-                  setStatus();
-                },
-                placeholder: "App Name",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "State (bottom text)",
+          initialValue: () => { return stor.state || "" },
+          oninput: (value, element) => {
+            stor.state = value || undefined;
+            setStatus();
+          }
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.appid = val.target.value || "733854571738300487";
-                  setStatus();
-                },
-                placeholder: "App ID",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "App Name",
+          initialValue: () => { return stor.name || "" },
+          oninput: (value, elem) => {
+            stor.name = value || undefined;
+            setStatus();
+          }
+        },
+        {
+          type: "text-input",
+          text: "App ID",
+          initialValue: () => stor.appid,
+          oninput: (value, elem) => {
+            stor.appid = value || undefined;
+            setStatus();
+          }
         },
         {
           type: 'divider',
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.large_image = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Large Image Name",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Large Image Name",
+          initialValue: () => {return stor.large_image},
+          oninput: (value, elem) => {stor.large_image = value || undefined;setStatus()}
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.large_text = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Large Image Text",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Large Image Text",
+          initialValue: () => stor.large_text,
+          oninput: (value, elem) => {stor.large_text = value || undefined; setStatus()}
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.small_image = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Small Image Name",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Small Image Name",
+          initialValue: () => stor.small_image,
+          oninput: (value, elem) => {stor.small_image = value || undefined; setStatus()}
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.small_text = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Small Image Text",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Small Image Text",
+          initialValue: () => {return stor.small_text},
+          oninput: (value, elem) => {stor.small_text = value || undefined;setStatus()}
         },
         {
           type: 'divider',
         },
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.label_one = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Button One Text",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Button One Text",
+          initialValue: () => {return stor.label_one},
+          oninput: (value, i) => {stor.label_one = value || undefined;setStatus()}
         },
-
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.url_one = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Button One URL",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Button One URL",
+          initialValue: () => stor.url_one,
+          oninput: (value, elem) => {stor.url_one = value || undefined; setStatus()}
         },
-
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.label_two = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Button Two Text",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Button Two Text",
+          initialValue: () => stor.label_two,
+          oninput: (value, elem) => {stor.label_two = value || undefined; setStatus()}
         },
-
         {
-          type: "custom",
-          element: (() => {
-            const elm = goosemod.webpackModules.common.React.createElement(
-              goosemod.webpackModules.findByDisplayName("TextInput"),
-              {
-                onBlur: (val) => {
-                  stor.url_two = val.target.value || undefined;
-                  setStatus();
-                },
-                placeholder: "Button Two URL",
-              }
-            );
-            let e = document.createElement("div");
-            goosemod.webpackModules.common.ReactDOM.render(elm, e);
-            return e;
-          })(),
+          type: "text-input",
+          text: "Button Two URL",
+          initialValue: () => stor.url_two,
+          oninput: (value, elem) => {stor.url_two = value || undefined; setStatus()}
         },
       ]);
     },
@@ -362,24 +211,6 @@ export default {
     onRemove: () => {
       try {
         removeItem("RPC");
-        function removeStatus() {
-          goosemod.webpackModules
-            .findByProps("INVITE_BROWSER")
-            .SET_ACTIVITY.handler({
-              socket: {
-                id: 100,
-                application: {
-                  id: stor.appid || "733854571738300487",
-                  name: stor.name || "RPC",
-                },
-                transport: "ipc",
-              },
-              args: {
-                pid: 10,
-                activity: undefined,
-              },
-            });
-        }
         removeStatus();
       } catch {
         console.warn(
