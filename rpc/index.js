@@ -78,7 +78,7 @@ export default {
               setStatus();
               rpc_toggle = !rpc_toggle
             } else {
-              removeStatus(true);
+              setStatus(true);
               rpc_toggle = !rpc_toggle
             }
           },
