@@ -1,43 +1,43 @@
 import { createItem, removeItem } from "@goosemod/settings";
 
-let stor = {};
-let togl = true;
-let tstogl = false;
-let btns = [];
+let rpc_data = {};
+let rpc_toggle = true;
+let timestamp_toggle = false;
+let buttons = [];
 let activity;
 export default {
   goosemodHandlers: {
     onImport: () => {
       function getButtons() {
-        btns = [];
-        if (stor.label_one && stor.url_one) {
-          btns = [
+        buttons = [];
+        if (rpc_data.label_one && rpc_data.url_one) {
+          buttons = [
             {
-              label: stor.label_one,
-              url: stor.url_one
+              label: rpc_data.label_one,
+              url: rpc_data.url_one
             }
           ]
         }
-        if ((stor.label_one && stor.url_one) && (stor.label_two && stor.url_two)) {
-          btns.push({ label: stor.label_two, url: stor.label_two });
+        if ((rpc_data.label_one && rpc_data.url_one) && (rpc_data.label_two && rpc_data.url_two)) {
+          buttons.push({ label: rpc_data.label_two, url: rpc_data.label_two });
         }
-        return btns;
+        return buttons;
       }
       function game() {
         return {
-          details: stor.details || "Hello from my status!",
-          state: stor.state || "Powered by Discord RP",
+          details: rpc_data.details || "Hello from my status!",
+          state: rpc_data.state || "Powered by Discord RP",
           timestamps:
-            stor.time || false
+            rpc_data.time || false
               ? {
                 start: Date.now(),
               }
               : undefined,
           assets: {
-            large_image: stor.large_image || undefined,
-            small_image: stor.small_image || undefined,
-            large_text: stor.large_text || undefined,
-            small_text: stor.small_text || undefined,
+            large_image: rpc_data.large_image || undefined,
+            small_image: rpc_data.small_image || undefined,
+            large_text: rpc_data.large_text || undefined,
+            small_text: rpc_data.small_text || undefined,
           },
           buttons: getButtons(),
         };
@@ -71,8 +71,8 @@ export default {
             socket: {
               id: 100,
               application: {
-                id: stor.appid || "733854571738300487",
-                name: stor.name || "with a custom Rich Presence",
+                id: rpc_data.appid || "733854571738300487",
+                name: rpc_data.name || "with a custom Rich Presence",
               },
               transport: "ipc",
             },
@@ -92,62 +92,62 @@ export default {
           onToggle: (value) => {
             if (value) {
               setStatus();
-              togl = !togl
+              rpc_toggle = !rpc_toggle
             } else {
               removeStatus(true);
-              togl = !togl
+              rpc_toggle = !rpc_toggle
             }
           },
           isToggled: () => {
             // Define what state the toggle switch should be in when loading the page.
-            return togl;
+            return rpc_toggle;
           },
         },
         {
           type: "toggle",
           text: "Show timestamp",
           onToggle: (value) => {
-            stor.time = value.target.value || false;
+            rpc_data.time = value.target.value || false;
             setStatus();
-            tstogl = stor.time
+            timestamp_toggle = rpc_data.time
           },
           isToggled: () => {
             // Define what state the toggle switch should be in when loading the page.
-            return tstogl;
+            return timestamp_toggle;
           },
         },
         {
           type: "text-input",
           text: "Details (top text)",
-          initialValue: () => stor.details,
+          initialValue: () => rpc_data.details,
           oninput: (value, elem) => {
-            stor.details = value || undefined;setStatus();
+            rpc_data.details = value || undefined; setStatus();
           }
         },
         {
           type: "text-input",
           text: "State (bottom text)",
-          initialValue: () => { return stor.state || "" },
+          initialValue: () => { return rpc_data.state || "" },
           oninput: (value, element) => {
-            stor.state = value || undefined;
+            rpc_data.state = value || undefined;
             setStatus();
           }
         },
         {
           type: "text-input",
           text: "App Name",
-          initialValue: () => { return stor.name || "" },
+          initialValue: () => { return rpc_data.name || "" },
           oninput: (value, elem) => {
-            stor.name = value || undefined;
+            rpc_data.name = value || undefined;
             setStatus();
           }
         },
         {
           type: "text-input",
           text: "App ID",
-          initialValue: () => stor.appid,
+          initialValue: () => rpc_data.appid,
           oninput: (value, elem) => {
-            stor.appid = value || undefined;
+            rpc_data.appid = value || undefined;
             setStatus();
           }
         },
@@ -157,26 +157,26 @@ export default {
         {
           type: "text-input",
           text: "Large Image Name",
-          initialValue: () => {return stor.large_image},
-          oninput: (value, elem) => {stor.large_image = value || undefined;setStatus()}
+          initialValue: () => { return rpc_data.large_image },
+          oninput: (value, elem) => { rpc_data.large_image = value || undefined; setStatus() }
         },
         {
           type: "text-input",
           text: "Large Image Text",
-          initialValue: () => stor.large_text,
-          oninput: (value, elem) => {stor.large_text = value || undefined; setStatus()}
+          initialValue: () => rpc_data.large_text,
+          oninput: (value, elem) => { rpc_data.large_text = value || undefined; setStatus() }
         },
         {
           type: "text-input",
           text: "Small Image Name",
-          initialValue: () => stor.small_image,
-          oninput: (value, elem) => {stor.small_image = value || undefined; setStatus()}
+          initialValue: () => rpc_data.small_image,
+          oninput: (value, elem) => { rpc_data.small_image = value || undefined; setStatus() }
         },
         {
           type: "text-input",
           text: "Small Image Text",
-          initialValue: () => {return stor.small_text},
-          oninput: (value, elem) => {stor.small_text = value || undefined;setStatus()}
+          initialValue: () => { return rpc_data.small_text },
+          oninput: (value, elem) => { rpc_data.small_text = value || undefined; setStatus() }
         },
         {
           type: 'divider',
@@ -184,26 +184,26 @@ export default {
         {
           type: "text-input",
           text: "Button One Text",
-          initialValue: () => {return stor.label_one},
-          oninput: (value, i) => {stor.label_one = value || undefined;setStatus()}
+          initialValue: () => { return rpc_data.label_one },
+          oninput: (value, i) => { rpc_data.label_one = value || undefined; setStatus() }
         },
         {
           type: "text-input",
           text: "Button One URL",
-          initialValue: () => stor.url_one,
-          oninput: (value, elem) => {stor.url_one = value || undefined; setStatus()}
+          initialValue: () => rpc_data.url_one,
+          oninput: (value, elem) => { rpc_data.url_one = value || undefined; setStatus() }
         },
         {
           type: "text-input",
           text: "Button Two Text",
-          initialValue: () => stor.label_two,
-          oninput: (value, elem) => {stor.label_two = value || undefined; setStatus()}
+          initialValue: () => rpc_data.label_two,
+          oninput: (value, elem) => { rpc_data.label_two = value || undefined; setStatus() }
         },
         {
           type: "text-input",
           text: "Button Two URL",
-          initialValue: () => stor.url_two,
-          oninput: (value, elem) => {stor.url_two = value || undefined; setStatus()}
+          initialValue: () => rpc_data.url_two,
+          oninput: (value, elem) => { rpc_data.url_two = value || undefined; setStatus() }
         },
       ]);
     },
