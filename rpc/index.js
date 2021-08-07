@@ -1,7 +1,7 @@
 import { createItem, removeItem } from "@goosemod/settings";
 
 let rpc_data = {};
-let rpc_toggle = true;
+let rpc_toggle = false;
 let timestamp_toggle = false;
 let buttons = [];
 let activity;
@@ -42,22 +42,6 @@ export default {
           buttons: getButtons(),
         };
       }
-      goosemod.webpackModules
-        .findByProps("INVITE_BROWSER")
-        .SET_ACTIVITY.handler({
-          socket: {
-            id: 100,
-            application: {
-              id: "733854571738300487",
-              name: "RPC",
-            },
-            transport: "ipc",
-          },
-          args: {
-            pid: 10,
-            activity: game(),
-          },
-        });
 
       function setStatus(remove) {
         if (remove) {
