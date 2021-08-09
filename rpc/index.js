@@ -91,9 +91,9 @@ export default {
           type: "toggle",
           text: "Show timestamp",
           onToggle: (value) => {
-            rpc_data.time = value.target.value || false;
+            rpc_data.time = value || false;
             setStatus();
-            timestamp_toggle = rpc_data.time
+            timestamp_toggle = rpc_data.time || value
           },
           isToggled: () => {
             // Define what state the toggle switch should be in when loading the page.
