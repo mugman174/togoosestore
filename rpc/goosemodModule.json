@@ -1,8 +1,17 @@
 {
-"main":"index.js",
-"version":"2.0",
-"name":"RPC",
-"description":"Set a custom RPC status for Discord.",
-"tags": ["Fun"],
-"authors":["601836455006044163","458805348669718559"]
+	"main": "index.js",
+	"version": "2.5",
+	"name": "RPC",
+	"description": "Set a custom RPC status for Discord.",
+	"tags": [
+		"Fun",
+		"Status",
+		"Custom",
+		"Rich",
+		"Presence"
+	],
+	"authors": [
+		"601836455006044163",
+		"458805348669718559"
+	]
 }
