@@ -7,6 +7,8 @@ let buttons = [];
 let activity;
 export default {
   goosemodHandlers: {
+    getSettings: () => [rpc_data],
+    loadSettings: ( [data] ) => {rpc_data = data},
     onImport: () => {
       function getButtons() {
         buttons = [];
@@ -50,8 +52,9 @@ export default {
           activity = game()
         }
         goosemod.webpackModules
-          .findByProps("INVITE_BROWSER")
-          .SET_ACTIVITY.handler({
+          .findByProps("SET_ACTIVITY").SET_ACTIVITY
+          .handler({
+            isSocketConnected: () => true,
             socket: {
               id: 100,
               application: {
