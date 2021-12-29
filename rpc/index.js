@@ -1,7 +1,7 @@
 import { createItem, removeItem } from "@goosemod/settings";
 
 let rpc_data = {};
-let rpc_toggle = false;
+//let rpc_toggle = false;
 let timestamp_toggle = false;
 let buttons = [];
 let activity;
@@ -79,15 +79,15 @@ export default {
           onToggle: (value) => {
             if (value) {
               setStatus();
-              rpc_toggle = !rpc_toggle
+              rpc_data.rpc_toggle = !rpc_data.rpc_toggle
             } else {
               setStatus(true);
-              rpc_toggle = !rpc_toggle
+              rpc_data.rpc_toggle = !rpc_data.rpc_toggle
             }
           },
           isToggled: () => {
             // Define what state the toggle switch should be in when loading the page.
-            return rpc_toggle;
+            return rpc_data.rpc_toggle;
           },
         },
         {
